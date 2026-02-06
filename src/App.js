@@ -1,23 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [usersData, setUsersData] = useState([]);
+
+  useEffect(() => {
+    fetchUsersData();
+  }, []);
+
+  async function fetchUsersData() {
+    const url = "https://dummy-json.mock.beeceptor.com/posts";
+    const response = await fetch(url);
+    const data = await response.json();
+    setUsersData(data);   // store API data in state
+    console.log(data, usersData);
+
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello Utsav Kalathiya 👋</h1>
+
+      {
+       usersData && usersData.map((item) => (
+          <div key={item.id}>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <h1>{item.userId}</h1>
+          </div>
+        ))
+      }
     </div>
   );
 }
